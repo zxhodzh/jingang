@@ -1,0 +1,61 @@
+[gd_scene load_steps=10 format=3 uid="uid://dykq4dyynqorg"]
+
+[ext_resource type="Texture2D" uid="uid://b7rkn53r5q70n" path="res://资源/bg.png" id="1_cuf06"]
+[ext_resource type="Script" path="res://脚本/主场景.gd" id="1_fe13g"]
+[ext_resource type="Texture2D" uid="uid://4rolop2u5gm8" path="res://资源/胜利.png" id="2_onlyv"]
+[ext_resource type="PackedScene" uid="uid://bmuu4cjj6ms6n" path="res://场景/玩家模块.tscn" id="3_cu13j"]
+[ext_resource type="Texture2D" uid="uid://dhmf0bbbhkcm1" path="res://资源/失败.png" id="3_lo5cn"]
+[ext_resource type="PackedScene" uid="uid://bfe4isk7hyqoh" path="res://场景/蜜蜂模块.tscn" id="4_ls58e"]
+[ext_resource type="PackedScene" uid="uid://vb4lh15c8hb1" path="res://场景/金刚模块.tscn" id="4_whc6e"]
+[ext_resource type="PackedScene" uid="uid://bsqk7etf8ktvt" path="res://场景/蜂窝模块.tscn" id="5_gais2"]
+[ext_resource type="AudioStream" uid="uid://byjm05l2frgt1" path="res://资源/001.ogg" id="9_oegxs"]
+
+[node name="主场景" type="Node2D"]
+script = ExtResource("1_fe13g")
+"胜利图片" = ExtResource("2_onlyv")
+"失败图片" = ExtResource("3_lo5cn")
+bee = ExtResource("4_ls58e")
+
+[node name="背景" type="Sprite2D" parent="."]
+texture = ExtResource("1_cuf06")
+centered = false
+
+[node name="提示牌" type="Sprite2D" parent="."]
+z_index = 100
+position = Vector2(97, 56)
+scale = Vector2(0.1, 0.1)
+centered = false
+
+[node name="子弹" type="Node2D" parent="."]
+
+[node name="玩家模块" parent="." instance=ExtResource("3_cu13j")]
+position = Vector2(130, 133)
+
+[node name="金刚模块" parent="." instance=ExtResource("4_whc6e")]
+position = Vector2(129, 59)
+
+[node name="蜂窝模块" parent="." instance=ExtResource("5_gais2")]
+position = Vector2(128, 10)
+
+[node name="蜜蜂" type="Node2D" parent="."]
+
+[node name="Timer" type="Timer" parent="蜜蜂"]
+autostart = true
+
+[node name="蜂窝" type="Node2D" parent="."]
+
+[node name="蜂窝" type="Node2D" parent="蜂窝"]
+
+[node name="蜂窝模块1" parent="蜂窝" instance=ExtResource("5_gais2")]
+position = Vector2(72, 38)
+
+[node name="蜂窝模块2" parent="蜂窝" instance=ExtResource("5_gais2")]
+position = Vector2(183, 38)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_oegxs")
+
+[connection signal="gameover" from="玩家模块" to="." method="_on_玩家模块_gameover"]
+[connection signal="gamefail" from="金刚模块" to="." method="_on_金刚模块_gamefail"]
+[connection signal="gamepass" from="金刚模块" to="." method="_on_金刚模块_gamepass"]
+[connection signal="timeout" from="蜜蜂/Timer" to="." method="_on_timer_timeout"]

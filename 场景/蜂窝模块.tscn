@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bsqk7etf8ktvt"]
+
+[ext_resource type="Texture2D" uid="uid://cj24qrifxec67" path="res://资源/item.png" id="1_c81md"]
+[ext_resource type="Script" path="res://脚本/蜂窝模块.gd" id="1_hvriu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kwuot"]
+size = Vector2(15, 10)
+
+[node name="蜂窝模块" type="Node2D"]
+script = ExtResource("1_hvriu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_c81md")
+
+[node name="蜂窝Area2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="蜂窝Area2D"]
+position = Vector2(0.5, -5)
+shape = SubResource("RectangleShape2D_kwuot")
+
+[connection signal="area_entered" from="蜂窝Area2D" to="." method="_on_area_2d_area_entered"]
